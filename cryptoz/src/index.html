@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>CryptoZombies front-end</title>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script language="javascript" type="text/javascript" src="web3.min.js"></script>
+  </head>
+  <body>
+    <div id="txStatus"></div>
+    <div id="zombies"></div>
+    <div>CryptoZombie Contract Address:<input id="ctaddr" type="text"/></div>
+    <div>Zombie Name:<input id="ctname" type="text"/></div>
+    <div>Zombie ID:<input id="ctid" type="text"/></div>
+    <div>Transfer Address:<input id="ctaddrto" type="text"/></div>
+    <div ><button onclick="createRandomZombie()">Crear Zombie</button></div>
+    <div ><button onclick="transferZombie()">Transfer Zombie</button></div>
+    <div ><button onclick="startApp()">Restart App</button></div>
+    <script>
+      var cryptoZombies;
+      var userAccount;
+      var cryptoZombiesABI;
+      function startApp() {
+        var cryptoZombiesAddress = $("#ctaddr").val();
+	      userAccount = null;
+        $.getJSON("ZombieOwnership.json", function (zzjson) {
+            cryptoZombies = new web3js.eth.Contract(zzjson.abi, cryptoZombiesAddress);
+            var accountInterval = setInterval(function() {         
+              if (typeof userAccount == 'undefined' || userAccount == null) {
+                web3js.eth.getAccounts().then(function(accounts){
+                  userAccount = accounts[0];
+                  getZombiesByOwner(userAccount).then(displayZombies);
+                });
+              }
+            }, 100);
+            cryptoZombies.events.Transfer({ filter: { _to: userAccount } })
+            .on("data", function(event) {
+              let data = event.returnValues;
+              getZombiesByOwner(userAccount).then(displayZombies);
+            }).on("error", console.error);            
+        });        
+      }
+      function displayZombies(ids) {
+        $("#zombies").empty();
+        for (id of ids) {
+          let auxid = id;
+          getZombieDetails(auxid)
+          .then(function(zombie) {                    
+            $("#zombies").append(`<div class="zombie">
+              <ul>
+                <li>ID: ${auxid}</li>
+                <li>Name: ${zombie.name}</li>
+                <li>DNA: ${zombie.dna}</li>
+                <li>Level: ${zombie.level}</li>
+                <li>Wins: ${zombie.winCount}</li>
+                <li>Losses: ${zombie.lossCount}</li>
+                <li>Ready Time: ${zombie.readyTime}</li>
+              </ul>
+            </div>`);
+          });
+        }
+      }
+      function createRandomZombie() {
+       var name = $("#ctname").val(); 
+        $("#txStatus").text("Creating new zombie on the blockchain. This may take a while...");
+        return cryptoZombies.methods.createRandomZombie(name)
+        .send({ from: userAccount })
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("Successfully created " + name + "!");       
+          getZombiesByOwner(userAccount).then(displayZombies);
+        })
+        .on("error", function(error) {       
+          $("#txStatus").text(error);
+        });
+      }
+
+      function transferZombie() {
+        var to = $("#ctaddrto").val();
+        var zombieId = $("#ctid").val();
+        $("#txStatus").text("Transfering Zombie. This may take a while...");
+        
+        return cryptoZombies.methods.transfer(to, zombieId)
+        .send({ from: userAccount })
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("Successfully transfered " + name + "!");
+          
+          getZombiesByOwner(userAccount).then(displayZombies);
+        })
+        .on("error", function(error) {
+          
+          $("#txStatus").text(error);
+        });
+      }
+
+      function feedOnKitty(zombieId, kittyId) {
+        $("#txStatus").text("Eating a kitty. This may take a while...");
+        return cryptoZombies.methods.feedOnKitty(zombieId, kittyId)
+        .send({ from: userAccount })
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("Ate a kitty and spawned a new Zombie!");
+          getZombiesByOwner(userAccount).then(displayZombies);
+        })
+        .on("error", function(error) {
+          $("#txStatus").text(error);
+        });
+      }
+      function levelUp(zombieId) {
+        $("#txStatus").text("Leveling up your zombie...");
+        return cryptoZombies.methods.levelUp(zombieId)
+        .send({ from: userAccount, value: web3.utils.toWei("0.001", "ether") })
+        .on("receipt", function(receipt) {
+          $("#txStatus").text("Power overwhelming! Zombie successfully leveled up");
+        })
+        .on("error", function(error) {
+          $("#txStatus").text(error);
+        });
+      }
+      function getZombieDetails(id) {
+        return cryptoZombies.methods.zombies(id).call()
+      }
+      function zombieToOwner(id) {
+        return cryptoZombies.methods.zombieToOwner(id).call()
+      }
+      function getZombiesByOwner(owner) {
+        return cryptoZombies.methods.getZombiesByOwner(owner).call()
+      }
+      window.addEventListener('load', async function() {
+        if (window.ethereum) {
+          web3js = new Web3(ethereum);
+                try {
+                    // Request account access if needed
+                    //debugger;
+                    await ethereum.enable();
+                    // Acccounts now exposed
+                    //web3.eth.sendTransaction({/* ... */});
+                } catch (error) {
+                    // User denied account access...
+                }
+        }
+      })
+    </script>
+  </body>
+</html>
