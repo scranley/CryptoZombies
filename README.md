@@ -1,13 +1,16 @@
-Running CryptoZombies with Truffle and Metamask
+#Running CryptoZombies with Truffle and Metamask
+
 Script to show how to test Ethereum smart contracts as developed by "cryptozombies.io" tutorial.
 by Jose Luis Lucini 
 
-Introduction:
+##Introduction:
+
 Loom Network has provided a great tutorial to learn Ethereum Blockchain basics.
 The blockchain development main concepts are ilustrated through several chapters within a browser-based test environment.
 The tutorial finishes with a simple-but-efective dApp development.
 
-Objective:
+##Objective:
+
 This script has the aim to really test the smart contracts and the Dapp in a local blockchain network.
 The tools used to test the CryptoZombies concepts are:
 * Truffle (https://truffleframework.com/docs/truffle/overview): Ethereum test and development environment.
@@ -31,25 +34,36 @@ Docker was used to stablish a ground OS based on Python image. The versions used
     The CryptoZombies dApp is released in "index.html" file.
 * lite-server: Latest version installed by "npm" is 2.4.0
 
-Prerequisites:
+##Prerequisites:
+
 To run this script it is needed to have installed Docker and Metmask. Web3js and node are bundled withn the Docker image.
 The contained exposes ports 3000 - "lite-server" default HTTP port where the dApp runs- and 9545 -the test Truffle network's RPC port-.
 Metamask installed in your preferred browser.
 
-Script:
+##Script:
+
 0. Create docker image o pull from Docker Hub:
 Alt. path 1: Create docker Image
 docker build -t cryptodapp .
 Alt. path 2: Pull from Docher Hub
 
 1. Run docker image:
+```
 docker run --name cryptodapp -p 9545:9545 -p 3000:3000 -it cryptodapp /bin/sh
+```
 This command automatically opens a shell within the container in the application folder.
+
 2. Within fodler "/home/cryptodapp", install Truffle:
+```
 npm install -g truffle
+```
 Some errors are given, but doesn't prevent normal Truffle execution.
+
 3. Build a Truffle project:
+```
 truffle init 
+```
+
 ```
 /home/cryptodapp # truffle init
 
@@ -67,13 +81,19 @@ Commands:
   Test contracts: truffle test
 ```
 4. Prepare the CryptoZombies source code: Copy smart contracts and tune the Truffle project:
+```
 cp cryptoz/contracts/* contracts
 cp cryptoz/migrations/* migrations
 cp cryptoz/truffle-config.js .
+```
 This last step setup Truffle compiler to use v0.4.19 , the one used by CryptoZombies tutorial. Additionally it is changed Migrations.sol to use this same version.
 Additionally the contracts source code was changed to use camel case to the contracts source files and import statements, otherwise some compilation errors are thrown.
+
 5. Run Truffle compile, develop and migrate (deploy):
+```
 truffle compile
+```
+
 ```
 /home/cryptodapp # truffle compile
 Compiling ./contracts/ERC721.sol...
@@ -99,7 +119,11 @@ Spanning multiple lines.
 
 Writing artifacts to ./build/contracts
 ```
+
+```
 truffle develop
+```
+
 ```
 /home/cryptodapp # truffle develop
 Truffle Develop started at http://127.0.0.1:9545/
@@ -136,9 +160,11 @@ Ensure you do not use it on production blockchains, or else you risk losing fund
 truffle(develop)>
 ```
 This last command runs the local blockchain, take note the Mnemonic seed, it will be needed to configure Metamask accounts.
+
 6. Run the deployment command
-truffle(develop)> migrate
 ```
+truffle(develop)> migrate
+
 ⚠️  Important ⚠️
 If you're using an HDWalletProvider, it must be Web3 1.0 enabled or your migration will hang.
 
@@ -201,11 +227,18 @@ truffle(develop)>
 Take note the Contract Address of smart contract ZombieOwnership, this is the main contract inheriting all the functinoality developed through CryptoZombies tutorial.
 
 With all these 6 steps we have a test blockchain running, it is missing the dApp deployment. For this purpose follow these next steps:
+
 7. Connect to the container in a different termina:
+```
 docker exec -it cryptodapp /bin/sh
+```
 This will open a new shell within the running container.
+
 8. Create npm project, use "index.html" as entry point and provide default values:
+```
 npm init
+```
+
 ```
 /home/cryptodapp # npm init
 This utility will walk you through creating a package.json file.
@@ -248,17 +281,26 @@ About to write to /home/cryptodapp/package.json:
 Is this OK? (yes) 
 ```
 9. Setup lite-server:
+```
 npm install lite-server
 cp cryptoz/bs-config.json .
+```
+
 10. Copy dApp index.html and web3.js library:
+```
 cp -r cryptoz/src .
+```
+
 11. Edit package.json to add the string "dev": "lite-server", to "script" section: 
     "scripts": {
         "dev": "lite-server",
-sed -i.bkp '/\"scripts\": {/a \"dev\": \"lite-server\",' package.json
-12. Finally run the dApp:
-npm run dev
 ```
+sed -i.bkp '/\"scripts\": {/a \"dev\": \"lite-server\",' package.json
+```
+
+12. Finally run the dApp:
+```
+npm run dev
 
 > cryptodapp@1.0.0 dev /home/cryptodapp
 > lite-server
@@ -289,9 +331,10 @@ You can start by selecting "Account 1" in Metamask and create the first CryptoZo
 If Metamask is well configured a popup will be opened to approve the transaction. Remark the smartcontract imposes the requisit to have only one Zombie by contract.
 You can use the "Transfer" button to call the transfer zombie smarto contract function.
 
-Tip: When you change between Metamask accounts, click "Restart App" to reload the account zombies list and setup the source contract address.
-The metamask configuration is : Private Network: http://localhost:9545
-In sucesive tests with different seed you will need to restore your Account transactions, otherwise the blockchain will detect inconsistences.
+**Tips**: 
+- When you change between Metamask accounts, click "Restart App" to setup the source contract address and reload the owner zombies list.
+- The metamask configuration is : Private Network: http://localhost:9545
+- In sucesive tests with different seeds you will need to restore your Account transactions, otherwise the blockchain will detect inconsistences.
 
-![Creating new zombie named 'zz2'](images/creating_zombie.png?raw=true "Creating new zombie named 'zz2'")
-![The 'create' transaction is finished](images/new_zombie_created.png?raw=true "Create transaction finished")
+[Creating new zombie named 'zz2'](images/creating_zombie.png)
+[The 'create' transaction is finished](images/new_zombie_created.png)
