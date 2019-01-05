@@ -1,15 +1,15 @@
-#Running CryptoZombies with Truffle and Metamask
+# Running CryptoZombies with Truffle and Metamask
 
 Script to show how to test Ethereum smart contracts as developed by "cryptozombies.io" tutorial.
 by Jose Luis Lucini 
 
-##Introduction:
+## Introduction:
 
 Loom Network has provided a great tutorial to learn Ethereum Blockchain basics.
 The blockchain development main concepts are ilustrated through several chapters within a browser-based test environment.
 The tutorial finishes with a simple-but-efective dApp development.
 
-##Objective:
+## Objective:
 
 This script has the aim to really test the smart contracts and the Dapp in a local blockchain network.
 The tools used to test the CryptoZombies concepts are:
@@ -34,13 +34,13 @@ Docker was used to stablish a ground OS based on Python image. The versions used
     The CryptoZombies dApp is released in "index.html" file.
 * lite-server: Latest version installed by "npm" is 2.4.0
 
-##Prerequisites:
+## Prerequisites:
 
 To run this script it is needed to have installed Docker and Metmask. Web3js and node are bundled withn the Docker image.
 The contained exposes ports 3000 - "lite-server" default HTTP port where the dApp runs- and 9545 -the test Truffle network's RPC port-.
 Metamask installed in your preferred browser.
 
-##Script:
+## Script:
 
 0. Create docker image o pull from Docker Hub:
 Alt. path 1: Create docker Image
@@ -336,5 +336,6 @@ You can use the "Transfer" button to call the transfer zombie smarto contract fu
 - The metamask configuration is : Private Network: http://localhost:9545
 - In sucesive tests with different seeds you will need to restore your Account transactions, otherwise the blockchain will detect inconsistences.
 
-[Creating new zombie named 'zz2'](images/creating_zombie.png)
-[The 'create' transaction is finished](images/new_zombie_created.png)
+![Creating new zombie named 'zz2'](cryptoz/images/creating_zombie.png "Creating new zombie")
+
+![The 'create' transaction is finished](cryptoz/images/new_zombie_created.png "Zombie transaction finished")
