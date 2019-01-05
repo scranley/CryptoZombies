@@ -48,7 +48,8 @@ Metamask installed in your preferred browser.
 ```
 docker build -t cryptodapp .
 ```
-   Alt. path 2: Pull and run from Docher Hub (see below).
+
+   Alt. path 2: Pull and run from Docher Hub repository "jllucini/cryptodapp" (see below).
 
 1. Run docker image :
 
@@ -56,6 +57,7 @@ docker build -t cryptodapp .
 ```
 docker run --name cryptodapp -p 9545:9545 -p 3000:3000 -it cryptodapp /bin/sh
 ```
+
    Alt. path 2:
 ```
 docker run  --name cryptodapp -p 9545:9545 -p 3000:3000 -it jllucini/cryptodapp /bin/sh
