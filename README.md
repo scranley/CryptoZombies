@@ -50,7 +50,7 @@ npm install -g truffle
 Some errors are given, but doesn't prevent normal Truffle execution.
 3. Build a Truffle project:
 truffle init 
----
+```
 /home/cryptodapp # truffle init
 
 ✔ Preparing to download
@@ -65,7 +65,7 @@ Commands:
   Compile:        truffle compile
   Migrate:        truffle migrate
   Test contracts: truffle test
----
+```
 4. Prepare the CryptoZombies source code: Copy smart contracts and tune the Truffle project:
 cp cryptoz/contracts/* contracts
 cp cryptoz/migrations/* migrations
@@ -74,7 +74,7 @@ This last step setup Truffle compiler to use v0.4.19 , the one used by CryptoZom
 Additionally the contracts source code was changed to use camel case to the contracts source files and import statements, otherwise some compilation errors are thrown.
 5. Run Truffle compile, develop and migrate (deploy):
 truffle compile
----
+```
 /home/cryptodapp # truffle compile
 Compiling ./contracts/ERC721.sol...
 Compiling ./contracts/Migrations.sol...
@@ -98,9 +98,9 @@ contract Ownable {
 Spanning multiple lines.
 
 Writing artifacts to ./build/contracts
----
+```
 truffle develop
----
+```
 /home/cryptodapp # truffle develop
 Truffle Develop started at http://127.0.0.1:9545/
 
@@ -134,11 +134,11 @@ Mnemonic: sea brush lake puppy urge must only seed gentle tragic industry busine
 Ensure you do not use it on production blockchains, or else you risk losing funds.
 
 truffle(develop)>
----
+```
 This last command runs the local blockchain, take note the Mnemonic seed, it will be needed to configure Metamask accounts.
 6. Run the deployment command
 truffle(develop)> migrate
----
+```
 ⚠️  Important ⚠️
 If you're using an HDWalletProvider, it must be Web3 1.0 enabled or your migration will hang.
 
@@ -197,7 +197,7 @@ Summary
 > Final cost:          0.1674121 ETH
 
 truffle(develop)> 
----
+```
 Take note the Contract Address of smart contract ZombieOwnership, this is the main contract inheriting all the functinoality developed through CryptoZombies tutorial.
 
 With all these 6 steps we have a test blockchain running, it is missing the dApp deployment. For this purpose follow these next steps:
@@ -206,7 +206,7 @@ docker exec -it cryptodapp /bin/sh
 This will open a new shell within the running container.
 8. Create npm project, use "index.html" as entry point and provide default values:
 npm init
----
+```
 /home/cryptodapp # npm init
 This utility will walk you through creating a package.json file.
 It only covers the most common items, and tries to guess sensible defaults.
@@ -246,7 +246,7 @@ About to write to /home/cryptodapp/package.json:
 
 
 Is this OK? (yes) 
----
+```
 9. Setup lite-server:
 npm install lite-server
 cp cryptoz/bs-config.json .
@@ -258,7 +258,7 @@ cp -r cryptoz/src .
 sed -i.bkp '/\"scripts\": {/a \"dev\": \"lite-server\",' package.json
 12. Finally run the dApp:
 npm run dev
----
+```
 
 > cryptodapp@1.0.0 dev /home/cryptodapp
 > lite-server
@@ -282,7 +282,7 @@ npm run dev
 [Browsersync] Serving files from: ./build/contracts
 [Browsersync] Watching files...
 [Browsersync] Couldn't open browser (if you are using BrowserSync in a headless environment, you might want to set the open option to false)
----
+```
 
 Now in your host OS can run your browser with Netamask installed: I used Firefox: http://localhost:3000
 You can start by selecting "Account 1" in Metamask and create the first CryptoZombi (provide a name in the HTML form).
