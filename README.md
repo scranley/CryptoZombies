@@ -44,26 +44,26 @@ Metamask installed in your preferred browser.
 
 0. Create docker image o pull from Docker Hub:
 
-Alt. path 1: Create your own docker Image
+   Alt. path 1: Create your own docker Image
 ```
 docker build -t cryptodapp .
 ```
-Alt. path 2: Pull and run from Docher Hub (see below).
+   Alt. path 2: Pull and run from Docher Hub (see below).
 
 1. Run docker image :
 
-Alt. path 1:
+   Alt. path 1:
 ```
 docker run --name cryptodapp -p 9545:9545 -p 3000:3000 -it cryptodapp /bin/sh
 ```
-Alt. path 2:
+   Alt. path 2:
 ```
 docker run  --name cryptodapp -p 9545:9545 -p 3000:3000 -it jllucini/cryptodapp /bin/sh
 ```
 
 This command automatically opens a shell within the container in the application folder.
 
-2. Within fodler "/home/cryptodapp", install Truffle:
+2. Within folder "/home/cryptodapp", install Truffle:
 ```
 npm install -g truffle
 ```
