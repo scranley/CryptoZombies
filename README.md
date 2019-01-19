@@ -44,21 +44,21 @@ Metamask installed in your preferred browser.
 
 0. Create docker image o pull from Docker Hub:
 
-   Alt. path 1: Create your own docker Image
+   Option a) Create your own docker Image
 ```
 docker build -t cryptodapp .
 ```
 
-   Alt. path 2: Pull and run from Docher Hub repository "jllucini/cryptodapp" (see below).
+   Option b) Pull and run from Docher Hub repository "jllucini/cryptodapp" (see below).
 
 1. Run docker image :
 
-   Alt. path 1:
+   Folowing Option a)
 ```
 docker run --name cryptodapp -p 9545:9545 -p 3000:3000 -it cryptodapp /bin/sh
 ```
 
-   Alt. path 2:
+   Following Option b)
 ```
 docker run  --name cryptodapp -p 9545:9545 -p 3000:3000 -it jllucini/cryptodapp /bin/sh
 ```
