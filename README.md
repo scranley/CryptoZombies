@@ -36,7 +36,7 @@ Docker was used to stablish a ground OS based on Python image. The versions used
 
 ## Prerequisites:
 
-To run this script it is needed to have installed Docker and Metmask. Web3js and node are bundled withn the Docker image.
+To run this script it is needed to have installed Docker and Metmask. Web3js and node are bundled within the Docker image.
 The contained exposes ports 3000 - "lite-server" default HTTP port where the dApp runs- and 9545 -the test Truffle network's RPC port-.
 Metamask installed in your preferred browser.
 
