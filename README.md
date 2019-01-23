@@ -1,7 +1,7 @@
 # Running CryptoZombies with Truffle and Metamask
 
-Script to show how to test Ethereum smart contracts as developed by "cryptozombies.io" tutorial.
-by Jose Luis Lucini 
+Guidelines to test yourself Ethereum smart contracts as developed by “cryptozombies.io” Solidity tutorial.
+(https://medium.com/@jllucini/running-cryptozombies-with-truffle-and-metamask-7991aa0f1250)
 
 ## Introduction:
 
