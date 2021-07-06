@@ -5,7 +5,8 @@
     <title>CryptoZombies front-end</title>
     <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script language="javascript" type="text/javascript" src="web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    
   </head>
   <body>
     <div id="txStatus"></div>
@@ -25,10 +26,10 @@
         var cryptoZombiesAddress = $("#ctaddr").val();
 	      userAccount = null;
         $.getJSON("ZombieOwnership.json", function (zzjson) {
-            cryptoZombies = new web3js.eth.Contract(zzjson.abi, cryptoZombiesAddress);
+            cryptoZombies = new web3.eth.Contract(zzjson.abi, cryptoZombiesAddress);
             var accountInterval = setInterval(function() {         
               if (typeof userAccount == 'undefined' || userAccount == null) {
-                web3js.eth.getAccounts().then(function(accounts){
+                web3.eth.getAccounts().then(function(accounts){
                   userAccount = accounts[0];
                   getZombiesByOwner(userAccount).then(displayZombies);
                 });
@@ -126,18 +127,16 @@
         return cryptoZombies.methods.getZombiesByOwner(owner).call()
       }
       window.addEventListener('load', async function() {
-        if (window.ethereum) {
-          web3js = new Web3(ethereum);
-                try {
-                    // Request account access if needed
-                    //debugger;
-                    await ethereum.enable();
-                    // Acccounts now exposed
-                    //web3.eth.sendTransaction({/* ... */});
-                } catch (error) {
-                    // User denied account access...
-                }
-        }
+        
+
+if (typeof web3 !== 'undefined') {
+    web3 = new Web3(web3.currentProvider);
+} else {
+    // set the provider you want from Web3.providers
+    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+}
+
+
       })
     </script>
   </body>
